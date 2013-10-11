@@ -1,0 +1,18 @@
+{
+  "name": "rcoleman-dropbox",
+  "version": "0.1.0",
+  "summary": "A simple module for installing the Dropbox client.",
+  "author": "rcoleman",
+  "description": "",
+  "dependencies": [],
+  "types": [],
+  "checksums": {
+    "Modulefile": "cb8df51c165e5cf2affdd1e468943e07",
+    "README.markdown": "760c184853885be2d6f2d4441a69e34b",
+    "manifests/init.pp": "fe2a6281d5cd9eb766b435e8bf2a74f9",
+    "manifests/repo.pp": "fd96535416fffc228d764e2f67e62cf1"
+  },
+  "source": "git@github.com:rcoleman/puppet-module-dropbox.git",
+  "project_page": "https://github.com/rcoleman/puppet-module-dropbox",
+  "license": "Apache 2.0"
+}
