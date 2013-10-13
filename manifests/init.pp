@@ -11,15 +11,15 @@ class dropbox(
   }
 
   file { 'Dropbox sysctl conf':
-    path => '/etc/sysctl.d/10-dropbox.conf',
+    path => '/etc/sysctl.d/30-dropbox.conf',
     ensure => file,
     owner => 'root', group => 'root', mode => '0644',
-    content => 'fs.inotify.max_user_watches = 100000',
+    content => 'fs.inotify.max_user_watches=100000',
   }
 
   exec { 'Dropbox sysctl settings':
     path => ['/bin','/sbin','/usr/bin','/usr/sbin'],
-    command => 'sysctl -p /etc/sysctl.d/10-dropbox.conf',
+    command => 'sysctl -p /etc/sysctl.d/30-dropbox.conf',
     refreshonly => true,
     subscribe => File['Dropbox sysctl conf'],
   }
