@@ -21,6 +21,4 @@ class dropbox::params {
     $autostart_users_real = ''
   }
 
-  $dropbox_daemon_path = '/usr/bin/dropbox'
-
 }

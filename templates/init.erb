@@ -15,7 +15,6 @@
 ############################################
 
 DROPBOX_USERS="<%= scope.lookupvar('dropbox::params::autostart_users_real') %>"
-DAEMON=<%= scope.lookupvar('dropbox::params::dropbox_daemon_path') %>
 unset DISPLAY
 
 start() {
@@ -23,7 +22,7 @@ start() {
     if [ $DROPBOX_USERS != '' ]; then
       for dbuser in $DROPBOX_USERS; do
         HOMEDIR=$(getent passwd $dbuser | cut -d: -f6)
-        if [ -x $DAEMON ]; then
+        if [ -x $HOMEDIR/.dropbox-dist/dropbox ]; then
           HOME="$HOMEDIR" start-stop-daemon -S -b -o -c $dbuser -u $dbuser -x $HOMEDIR/.dropbox-dist/dropbox
         fi
      done
@@ -36,7 +35,8 @@ stop() {
   echo "Stopping dropbox ..."
   if [ $DROPBOX_USERS != '' ]; then
      for dbuser in $DROPBOX_USERS; do
-       if [ -x $DAEMON ]; then
+       HOMEDIR=$(getent passwd $dbuser | cut -d: -f6)
+       if [ -x $HOMEDIR/.dropbox-dist/dropbox ]; then
          start-stop-daemon -o -c $dbuser -K -u $dbuser -x $HOMEDIR/.dropbox-dist/dropbox
        fi
      done
