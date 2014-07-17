@@ -32,12 +32,12 @@ class dropbox::service {
 
       exec {'init dropbox service':
         command => '/usr/sbin/update-rc.d dropbox defaults',
-        unless  => 'ls -1 /etc/rc*.d | grep -q dropbox',
+        unless  => '/bin/ls -1 /etc/rc*.d | grep -q dropbox',
         require => File['/etc/init.d/dropbox'],
       }
 
       service { 'dropbox':
-        ensure     => $dropbpx::service_ensure,
+        ensure     => $dropbox::service_ensure,
         enable     => $dropbox::service_enable,
         hasrestart => true,
         require    => File['/etc/init.d/dropbox']
