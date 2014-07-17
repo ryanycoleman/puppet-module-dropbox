@@ -1,17 +1,22 @@
-# == Class: dropbox::config
+# == Class: dropbox::service
 #
-# This class handles deployment of DropBox configuration files
+# This class handles deployments of DropBox service
 #
 # == Actions:
 #
+# * Adds an init script and registers it
+# * Declares the service Puppet resource
+#
 # === Requires:
+#
+# * Debian $::osfamily
 #
 # === Authors:
 #
 # Ryan Coleman
 # Craig Watson
 #
-class dropbox::config {
+class dropbox::service {
 
   case $::osfamily {
 
@@ -27,10 +32,17 @@ class dropbox::config {
 
       exec {'init dropbox service':
         command => '/usr/sbin/update-rc.d dropbox defaults',
-        creates => '',
-        unless  => '',
+        unless  => 'ls -1 /etc/rc*.d | grep -q dropbox',
         require => File['/etc/init.d/dropbox'],
       }
+
+      service { 'dropbox':
+        ensure     => $dropbpx::service_ensure,
+        enable     => $dropbox::service_enable,
+        hasrestart => true,
+        require    => File['/etc/init.d/dropbox']
+      }
+
     }
 
     default: {
@@ -40,3 +52,4 @@ class dropbox::config {
   }
 
 }
+

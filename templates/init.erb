@@ -9,7 +9,7 @@
 ### END INIT INFO
 
 DROPBOX_USERS="<%= scope.lookupvar('dropbox::params::autostart_users_real') %>"
-DAEMON=/usr/local/dropbox/dropbox
+DAEMON=<%= scope.lookupvar('dropbox::params::dropbox_daemon_path') %>
 unset DISPLAY
 
 start() {

@@ -1,7 +1,7 @@
 # == Class: dropbox
 #
 # This class handles installation of DropBox. Currently, it just supports
-# Debian.
+# the Debian osfamily.
 #
 # Be warned that it will simply install a shell of the client and will NOT
 # configure it.
@@ -14,16 +14,21 @@
 #
 # [*manage_repo*]
 #   Boolean that controls whether to add the DropBox apt repository.
-#   DEFAULT: true (boolean)
+#   DEFAULT: false (boolean)
 #
 # [*manage_service*]
 #   Boolean that controls whether to manage the DropBox service.
-#   DEFAULT: true (boolean)
+#   DEFAULT: false (boolean)
 #
 # [*service_enabled*]
-#   Parameter passed to the DropBox service resource. Only used if
-#   manage_service parameter is set to true.
+#   Passed to the DropBox service resource to set the 'enabled' attribute. Only
+#   used if the manage_service parameter is set to true.
 #   DEFAULT: true (boolean)
+#
+# [*service_ensure *]
+#   Passed to the DropBox service resource to set the 'ensure' attribute. Only
+#   used if the manage_service parameter is set to true.
+#   DEFAULT: running (Puppet special type)
 #
 # == Actions:
 #
@@ -54,12 +59,17 @@
 #
 class dropbox(
   $autostart_users = 'none',
-  $manage_repo     = true,
-  $manage_service  = true,
+  $manage_repo     = false,
+  $manage_service  = false,
+  $service_enabled = true,
+  $service_ensure  = running,
 ) {
 
   include dropbox::params
   include dropbox::install
-  include dropbox::config
+
+  if $manage_service == true {
+    include dropbox::service
+  }
 
 }
