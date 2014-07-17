@@ -21,20 +21,8 @@ class dropbox::service {
   case $::osfamily {
 
     'Debian': {
-      file { '/etc/init.d/dropbox':
-        ensure  => file,
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0755',
-        content => template('dropbox/init.erb'),
-        require => Package['dropbox'],
-      }
 
-      exec {'init dropbox service':
-        command => '/usr/sbin/update-rc.d dropbox defaults',
-        unless  => '/bin/ls -1 /etc/rc*.d | grep -q dropbox',
-        require => File['/etc/init.d/dropbox'],
-      }
+      require dropbox::service::config
 
       service { 'dropbox':
         ensure     => $dropbox::service_ensure,
