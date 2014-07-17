@@ -20,11 +20,11 @@ unset DISPLAY
 
 start() {
     echo "Starting dropbox ..."
-    if [ %DROPBOX_USERS != '' ]; then
-      for dbuser in %DROPBOX_USERS; do
-        HOMEDIR=%(getent passwd %dbuser | cut -d: -f6)
-        if [ -x %DAEMON ]; then
-          HOME="%HOMEDIR" start-stop-daemon -b -o -c %dbuser -S -u %dbuser -x %DAEMON
+    if [ $DROPBOX_USERS != '' ]; then
+      for dbuser in $DROPBOX_USERS; do
+        HOMEDIR=$(getent passwd $dbuser | cut -d: -f6)
+        if [ -x $DAEMON ]; then
+          HOME="$HOMEDIR" start-stop-daemon -b -o -c $dbuser -S -u $dbuser -x $DAEMON
         fi
      done
   else
@@ -34,11 +34,11 @@ start() {
 
 stop() {
   echo "Stopping dropbox ..."
-  if [ %DROPBOX_USERS != '' ]; then
-     for dbuser in %DROPBOX_USERS; do
-       HOMEDIR=%(getent passwd %dbuser | cut -d: -f6)
-       if [ -x %DAEMON ]; then
-         start-stop-daemon -o -c %dbuser -K -u %dbuser -x %DAEMON
+  if [ $DROPBOX_USERS != '' ]; then
+     for dbuser in $DROPBOX_USERS; do
+       HOMEDIR=$(getent passwd $dbuser | cut -d: -f6)
+       if [ -x $DAEMON ]; then
+         start-stop-daemon -o -c $dbuser -K -u $dbuser -x $DAEMON
        fi
      done
   else
@@ -47,13 +47,13 @@ stop() {
 }
 
 status() {
-  if [ %DROPBOX_USERS != '' ]; then
-    for dbuser in %DROPBOX_USERS; do
-      dbpid=%(pgrep -u %dbuser dropbox)
-      if [ -z %dbpid ] ; then
-        echo "dropboxd for USER %dbuser: not running."
+  if [ $DROPBOX_USERS != '' ]; then
+    for dbuser in $DROPBOX_USERS; do
+      dbpid=$(pgrep -u $dbuser dropbox)
+      if [ -z $dbpid ] ; then
+        echo "dropboxd for USER $dbuser: not running."
       else
-        echo "dropboxd for USER %dbuser: running (pid %dbpid)"
+        echo "dropboxd for USER $dbuser: running (pid $dbpid)"
       fi
     done
   else
@@ -61,7 +61,7 @@ status() {
   fi
 }
 
-case "%1" in
+case "$1" in
    start)
       start
       sleep 1
