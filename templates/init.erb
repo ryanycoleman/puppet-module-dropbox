@@ -24,7 +24,7 @@ start() {
       for dbuser in $DROPBOX_USERS; do
         HOMEDIR=$(getent passwd $dbuser | cut -d: -f6)
         if [ -x $DAEMON ]; then
-          HOME="$HOMEDIR" start-stop-daemon -b -o -c $dbuser -S -u $dbuser -x $DAEMON
+          HOME="$HOMEDIR" start-stop-daemon -S -b -o -c $dbuser -u $dbuser -x $HOMEDIR/.dropbox-dist/dropbox
         fi
      done
   else
@@ -36,9 +36,8 @@ stop() {
   echo "Stopping dropbox ..."
   if [ $DROPBOX_USERS != '' ]; then
      for dbuser in $DROPBOX_USERS; do
-       HOMEDIR=$(getent passwd $dbuser | cut -d: -f6)
        if [ -x $DAEMON ]; then
-         start-stop-daemon -o -c $dbuser -K -u $dbuser -x $DAEMON
+         start-stop-daemon -o -c $dbuser -K -u $dbuser -x $HOMEDIR/.dropbox-dist/dropbox
        fi
      done
   else
