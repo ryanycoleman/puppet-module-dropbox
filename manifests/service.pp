@@ -27,7 +27,10 @@ class dropbox::service {
       service { 'dropbox':
         ensure     => $dropbox::service_ensure,
         enable     => $dropbox::service_enable,
+        restart    => '/etc/init.d/dropbox restart',
+        status     => '/etc/init.d/dropbox status',
         hasrestart => true,
+        hasstatus  => true,
       }
 
     }

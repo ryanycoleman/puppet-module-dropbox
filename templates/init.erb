@@ -51,12 +51,15 @@ status() {
       dbpid=$(pgrep -u $dbuser dropbox)
       if [ -z $dbpid ] ; then
         echo "dropboxd for USER $dbuser: not running."
+        exit 1
       else
         echo "dropboxd for USER $dbuser: running (pid $dbpid)"
+        exit 0
       fi
     done
   else
     echo "No dropbox users configured!"
+    exit 1
   fi
 }
 
