@@ -18,7 +18,7 @@
 # Craig Watson
 #
 class dropbox::repo {
-  
+
   case $::osfamily {
 
     'Debian': {
@@ -29,7 +29,7 @@ class dropbox::repo {
         repos             => 'main',
         include_src       => false,
       }
-      
+
       apt::key { 'dropbox':
         key        => '5044912E',
         key_server => 'pgp.mit.edu',
@@ -41,5 +41,5 @@ class dropbox::repo {
     }
 
   }
-  
+
 }
