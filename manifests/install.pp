@@ -17,7 +17,7 @@ class dropbox::install {
     require dropbox::repo
   }
 
-  package { 'dropbox':
+  package { ['dropbox','python-gpgme']:
     ensure => installed,
   }
 
