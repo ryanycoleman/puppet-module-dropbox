@@ -4,7 +4,16 @@
   "summary": "A simple module for installing the Dropbox client.",
   "author": "rcoleman",
   "description": "",
-  "dependencies": [],
+  "dependencies": [
+  	{
+  		"name":"puppetlabs/stdlib", 
+  		"version_requirement":">=2.2.1"
+  	},
+  	{
+      "name": "puppetlabs/apt",
+      "version_requirement": ">= 0.0.1"
+    }
+  ],
   "types": [],
   "checksums": {
     "Modulefile": "cb8df51c165e5cf2affdd1e468943e07",
