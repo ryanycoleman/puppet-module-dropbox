@@ -8,6 +8,7 @@ class dropbox(
   
   package { 'dropbox':
     ensure => installed,
+    require => Exec['apt_update'],
   }
 
 }
