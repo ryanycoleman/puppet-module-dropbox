@@ -4,7 +4,9 @@
   "summary": "A simple module for installing the Dropbox client.",
   "author": "rcoleman",
   "description": "",
-  "dependencies": [],
+  "dependencies": [
+    {"name":"puppetlabs/apt","version_requirement":">= 2.0.0"}
+  ],
   "types": [],
   "source": "git@github.com:rcoleman/puppet-module-dropbox.git",
   "project_page": "https://github.com/rcoleman/puppet-module-dropbox",

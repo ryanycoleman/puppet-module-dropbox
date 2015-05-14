@@ -9,13 +9,11 @@ class dropbox::repo {
         location          => "http://linux.dropbox.com/${dropbox::repo::os_lowercase}",
         release           => $::lsbdistcodename,
         repos             => 'main',
-        include_src       => false,
+        key               => {
+          'id'     => '5044912E',
+          'server' => 'pgp.mit.edu',
+        },
       }
-      
-			apt::key { 'dropbox':
-			  key        => '5044912E',
-			  key_server => 'pgp.mit.edu',
-			}
       
     }
     
