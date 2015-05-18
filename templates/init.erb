@@ -1,0 +1,97 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides: dropbox
+# Required-Start: $local_fs $remote_fs $network $syslog $named
+# Required-Stop: $local_fs $remote_fs $network $syslog $named
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# X-Interactive: false
+# Short-Description: starts the dropbox service
+# Description: starts dropbox using start-stop-daemon
+### END INIT INFO
+
+############################################
+# WARNING:
+# Managed by puppet - DO NOT modify locally.
+############################################
+
+DROPBOX_USERS="<%= scope.lookupvar('dropbox::params::autostart_users_real') %>"
+unset DISPLAY
+
+start() {
+    echo "Starting dropbox ..."
+    if [ $DROPBOX_USERS != '' ]; then
+      for dbuser in $DROPBOX_USERS; do
+        HOMEDIR=$(getent passwd $dbuser | cut -d: -f6)
+        if [ -x $HOMEDIR/.dropbox-dist/dropbox ]; then
+          HOME="$HOMEDIR" start-stop-daemon -S -b -o -c $dbuser -u $dbuser -x $HOMEDIR/.dropbox-dist/dropbox
+        fi
+     done
+  else
+    echo "No dropbox users configured!"
+  fi
+}
+
+stop() {
+  echo "Stopping dropbox ..."
+  if [ $DROPBOX_USERS != '' ]; then
+     for dbuser in $DROPBOX_USERS; do
+       HOMEDIR=$(getent passwd $dbuser | cut -d: -f6)
+       if [ -x $HOMEDIR/.dropbox-dist/dropbox ]; then
+         start-stop-daemon -o -c $dbuser -K -u $dbuser -x $HOMEDIR/.dropbox-dist/dropbox
+       fi
+     done
+  else
+    echo "No dropbox users configured!"
+  fi
+}
+
+status() {
+  if [ $DROPBOX_USERS != '' ]; then
+    for dbuser in $DROPBOX_USERS; do
+      dbpid=$(pgrep -u $dbuser dropbox)
+      if [ -z $dbpid ] ; then
+        echo "dropboxd for USER $dbuser: not running."
+        exit 1
+      else
+        echo "dropboxd for USER $dbuser: running (pid $dbpid)"
+        exit 0
+      fi
+    done
+  else
+    echo "No dropbox users configured!"
+    exit 1
+  fi
+}
+
+case "$1" in
+   start)
+      start
+      sleep 1
+      status
+      ;;
+
+   stop)
+      stop
+      sleep 1
+      status
+      ;;
+
+   restart|reload|force-reload)
+      stop
+      start
+      sleep 1
+      status
+      ;;
+
+   status)
+      status
+      ;;
+
+   *)
+      echo "Usage: /etc/init.d/dropbox {start|stop|reload|force-reload|restart|status}"
+      exit 1
+
+esac
+
+exit 0
