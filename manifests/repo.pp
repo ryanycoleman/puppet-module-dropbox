@@ -15,8 +15,8 @@ class dropbox::repo {
       }
 
       apt::key { 'dropbox':
-        key        => '5044912E',
-        key_server => 'pgp.mit.edu',
+        id     => '5044912E',
+        server => 'pgp.mit.edu',
       }
 
     }
