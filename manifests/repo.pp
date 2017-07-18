@@ -6,10 +6,12 @@ class dropbox::repo {
       $os_lowercase = downcase($::operatingsystem)
 
       apt::source { 'dropbox':
-        location          => "http://linux.dropbox.com/${dropbox::repo::os_lowercase}",
-        release           => $::lsbdistcodename,
-        repos             => 'main',
-        include_src       => false,
+        location => "http://linux.dropbox.com/${dropbox::repo::os_lowercase}",
+        release  => $::lsbdistcodename,
+        repos    => 'main',
+        include  => {
+          'src' => false,
+        },
       }
 
       apt::key { 'dropbox':
