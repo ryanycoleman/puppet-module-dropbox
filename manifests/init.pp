@@ -5,7 +5,7 @@ class dropbox(
   if $manage_repo {
     require dropbox::repo
   }
-  
+
   package { 'dropbox':
     ensure => installed,
   }
